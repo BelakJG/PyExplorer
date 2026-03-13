@@ -17,10 +17,17 @@ def populate_tree(parent, path):
 
 def open_node(event):
     node = file_tree.focus()
-    path = file_tree.item(node)["values"][0]
+    values = file_tree.item(node)["values"]
+    if not values:
+        return
 
-    file_tree.delete(*file_tree.get_children(node))
-    populate_tree(node, path)
+    path = values[0]
+    children = file_tree.get_children(node)
+    if children:
+        first_child = children[0]
+        if not file_tree.item(first_child)["values"]:
+            file_tree.delete(first_child)
+            populate_tree(node, path)
 
 def show_files(event):
     node = file_tree.focus()
