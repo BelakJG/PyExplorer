@@ -31,7 +31,11 @@ def open_node(event):
 
 def show_files(event):
     node = file_tree.focus()
-    path = file_tree.item(node)["values"][0]
+    values = file_tree.item(node)["values"]
+    if not values:
+        return
+
+    path = values[0]
 
     file_list.delete(*file_list.get_children())
 
