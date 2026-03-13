@@ -7,6 +7,16 @@ def load_files(path):
     for file in files:
         file_list.insert(tk.END, file)
 
+def open_items(event):
+    global current_path
+
+    selection = file_list.get(file_list.curselection())
+    path = os.path.join(current_path, selection)
+
+    if os.path.isdir(path):
+        current_path = path
+        load_files(current_path)
+
 #sets up main window and geometry
 root = tk.Tk()
 root.title("File Explorer")
