@@ -54,13 +54,14 @@ file_tree = ttk.Treeview(paned)
 paned.add(file_tree, width=300)
 
 #sets root to root director on linux or windows
-root_node = file_tree.insert("", "end", text=os.path.abspath(os.sep), open=True)
+root_node = file_tree.insert("", "end", text=os.path.abspath(os.sep), values=[os.path.abspath(os.sep)], open=True)
+populate_tree(root_node, os.path.abspath(os.sep))
 
 file_tree.bind("<<TreeviewOpen>>", open_node)
 
-file_list =ttk.Treeview(paned, columns=("size", "type"), show="headings")
+file_list =ttk.Treeview(paned, columns=("name", "size"), show="headings")
+file_list.heading("name", text="Name")
 file_list.heading("size", text="Size")
-file_list.heading("type", text="type")
 paned.add(file_list)
 
 file_tree.bind("<<TreeviewSelect>>", show_files)
