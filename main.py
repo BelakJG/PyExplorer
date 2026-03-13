@@ -1,5 +1,4 @@
 import tkinter as tk
-from logging import exception
 from tkinter import ttk
 import os
 import subprocess
@@ -76,11 +75,11 @@ root.title("File Explorer")
 root.geometry("800x600")
 
 #Pane to allow resizeable panels
-paned = tk.PanedWindow(root, orient="horizontal")
+paned = ttk.PanedWindow(root, orient="horizontal")
 paned.pack(fill="both", expand=True)
 
 file_tree = ttk.Treeview(paned)
-paned.add(file_tree, width=300)
+paned.add(file_tree)
 
 #sets root to root director on linux or windows
 root_node = file_tree.insert("", "end", text=os.path.abspath(os.sep), values=[os.path.abspath(os.sep)], open=True)
@@ -88,7 +87,7 @@ populate_tree(root_node, os.path.abspath(os.sep))
 
 file_tree.bind("<<TreeviewOpen>>", open_node)
 
-file_list =ttk.Treeview(paned, columns=("name", "size"), show="headings")
+file_list = ttk.Treeview(paned, columns=("name", "size"), show="headings")
 file_list.heading("name", text="Name")
 file_list.heading("size", text="Size")
 paned.add(file_list)
@@ -98,7 +97,7 @@ file_list.bind("<Double-Button-1>", open_file)
 file_tree.bind("<<TreeviewSelect>>", show_files)
 
 path_var = tk.StringVar()
-path_bar = tk.Entry(root, textvariable=path_var)
+path_bar = ttk.Entry(root, textvariable=path_var)
 path_bar.pack(fill="x")
 
 #GUI main event loop
