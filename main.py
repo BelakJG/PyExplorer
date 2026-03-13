@@ -1,6 +1,8 @@
 import tkinter as tk
+from logging import exception
 from tkinter import ttk
 import os
+import subprocess
 
 def populate_tree(parent, path):
     try:
@@ -49,9 +51,23 @@ def show_files(event):
                 ext = os.path.splitext(item)[1]
 
                 file_list.insert("", "end", values=(item, size, ext))
-                path_var.set(path)
     except PermissionError:
         pass
+
+def open_file(event):
+    item = file_list.focus()
+
+    values = file_list.item(item)["values"]
+    if not values:
+        return
+
+    filename = values[0]
+    path = os.path.join(path_var.get(), filename)
+
+    try:
+        subprocess.Popen(["xdg-open", path])
+    except Exception as e:
+        print("Could not open file: ", e)
 
 
 #sets up main window and geometry
@@ -76,6 +92,8 @@ file_list =ttk.Treeview(paned, columns=("name", "size"), show="headings")
 file_list.heading("name", text="Name")
 file_list.heading("size", text="Size")
 paned.add(file_list)
+
+file_list.bind("<Double-Button-1>", open_file)
 
 file_tree.bind("<<TreeviewSelect>>", show_files)
 
