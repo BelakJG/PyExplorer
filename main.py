@@ -15,6 +15,13 @@ def populate_tree(parent, path):
     except PermissionError:
         pass
 
+def open_node(event):
+    node = file_tree.focus()
+    path = file_tree.item(node)["values"][0]
+
+    file_tree.delete(*file_tree.get_children(node))
+    populate_tree(node, path)
+
 #sets up main window and geometry
 root = tk.Tk()
 root.title("File Explorer")
