@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import os
 
 def load_files(path):
@@ -27,18 +28,12 @@ root = tk.Tk()
 root.title("File Explorer")
 root.geometry("800x600")
 
-#tracks current directory
-current_path = os.getcwd()
+#Pane to allow resizeable panels
+paned = tk.PanedWindow(root, orient="horizontal")
+paned.pack(fill="both", expand=True)
 
-#widget to display files
-file_list = tk.Listbox(root)
-file_list.pack(fill="both", expand=True)
-load_files(current_path)
-
-file_list.bind("<Double-Button-1>", open_items)
-
-up_button = tk.Button(root, text="Up", command=go_up)
-up_button.pack()
+file_tree = ttk.Treeview(paned)
+paned.add(file_tree, width=300)
 
 #GUI main event loop
 root.mainloop()
