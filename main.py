@@ -22,6 +22,25 @@ def open_node(event):
     file_tree.delete(*file_tree.get_children(node))
     populate_tree(node, path)
 
+def show_files(event):
+    node = file_tree.focus()
+    path = file_tree.item(node)["values"][0]
+
+    file_list.delete(*file_list.get_children())
+
+    try:
+        for item in os.listdir(path):
+            full_path = os.path.join(path, item)
+
+            if os.path.isfile(full_path):
+                size = os.path.getsize(full_path)
+                ext = os.path.splitext(item)[1]
+
+                file_list.insert("", "end", values=(item, size, ext))
+    except PermissionError:
+        pass
+
+
 #sets up main window and geometry
 root = tk.Tk()
 root.title("File Explorer")
@@ -43,6 +62,8 @@ file_list =ttk.Treeview(paned, columns=("size", "type"), show="headings")
 file_list.heading("size", text="Size")
 file_list.heading("type", text="type")
 paned.add(file_list)
+
+file_tree.bind("<<TreeviewSelect>>", show_files)
 
 #GUI main event loop
 root.mainloop()
