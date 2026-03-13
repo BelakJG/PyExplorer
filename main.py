@@ -37,6 +37,7 @@ def show_files(event):
                 ext = os.path.splitext(item)[1]
 
                 file_list.insert("", "end", values=(item, size, ext))
+                path_var.set(path)
     except PermissionError:
         pass
 
@@ -65,6 +66,10 @@ file_list.heading("size", text="Size")
 paned.add(file_list)
 
 file_tree.bind("<<TreeviewSelect>>", show_files)
+
+path_var = tk.StringVar()
+path_bar = tk.Entry(root, textvariable=path_var)
+path_bar.pack(fill="x")
 
 #GUI main event loop
 root.mainloop()
