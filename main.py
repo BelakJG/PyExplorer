@@ -40,6 +40,7 @@ def show_files(event):
     file_list.delete(*file_list.get_children())
 
     try:
+        path_var.set(path)
         for item in os.listdir(path):
             full_path = os.path.join(path, item)
 
